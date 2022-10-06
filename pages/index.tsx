@@ -1,18 +1,15 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import {
-  Card,
-  Container,
-  Description,
-  Footer,
-  Logo,
-  Main,
-  Report,
-  Title,
-  Works,
-} from './indexStyle'
+import { useMemo, useState } from 'react'
+import { switchReport } from '../components/switchReport'
+import { Card, Container, Description, Footer, Logo, Main, Title, Works } from './indexStyle'
 
 const Home: NextPage = () => {
+  const [mode, setMode] = useState('kintai')
+  const Report = useMemo(() => {
+    return switchReport(mode)
+  }, [mode])
+
   return (
     <Container>
       <Head>
@@ -25,29 +22,19 @@ const Home: NextPage = () => {
       <Description>報告事項を選択して各種報告をしてください。</Description>
       <Main>
         <Works>
-          <Card href="https://nextjs.org/docs">勤怠入力</Card>
+          <Card onClick={() => setMode('kintai')}>勤怠入力</Card>
 
-          <Card href="https://nextjs.org/learn">残業時間報告</Card>
+          <Card onClick={() => setMode('zangyo')}>残業時間報告</Card>
 
-          <Card href="https://github.com/vercel/next.js/tree/master/examples">月次報告</Card>
+          <Card onClick={() => setMode('mounth')}>月次報告</Card>
 
-          <Card href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app">
-            営業報告
-          </Card>
+          <Card onClick={() => setMode('eigyo')}>営業報告</Card>
 
-          <Card href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app">
-            査定報告
-          </Card>
+          <Card onClick={() => setMode('satei')}>査定報告</Card>
 
-          <Card href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app">
-            周知（役職者）
-          </Card>
+          <Card onClick={() => setMode('leader')}>周知（役職者）</Card>
         </Works>
-        <Report>
-          <button>入力項目A</button>
-          <button>入力項目B</button>
-          <button>入力項目C</button>
-        </Report>
+        <Report />
       </Main>
 
       <Footer>
