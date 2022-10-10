@@ -1,4 +1,4 @@
-export const zangyo = () => {
+export const useZangyo = () => {
   return (
     <div>
       {'残業'}

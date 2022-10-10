@@ -1,12 +1,12 @@
-import { kintai } from './report/kintai'
-import { zangyo } from './report/zangyo'
+import { useKintai } from './report/kintai'
+import { useZangyo } from './report/zangyo'
 
 export const switchReport = (mode: string) => {
   if (mode === 'kintai') {
-    return kintai
+    return useKintai
   }
   if (mode === 'zangyo') {
-    return zangyo
+    return useZangyo
   }
-  return kintai
+  return useKintai
 }
