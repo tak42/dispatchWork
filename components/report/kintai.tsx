@@ -1,9 +1,10 @@
 import { useState } from 'react'
 
 export const useKintai = () => {
-  const [displayMonth, setDisplayMonth] = useState('10')
-  const [requestYear, setRequestYear] = useState('2022')
-  const [requestMonth, setRequestMonth] = useState('10')
+  const now = new Date()
+  const [requestYear, setRequestYear] = useState(now.getFullYear().toString())
+  const [requestMonth, setRequestMonth] = useState(String(now.getMonth() + 1))
+  const [displayMonth, setDisplayMonth] = useState(now.getMonth().toString())
   const [startTime, setStartTime] = useState('09:00')
   const [endTime, setEndTime] = useState('18:00')
   const [restStartTime, setRestStartTime] = useState('12:00')
@@ -70,9 +71,13 @@ export const useKintai = () => {
   const submit = () => {
     setLogs([...logs, createUserLogs()])
   }
+  const nowJapaneseDay = () => {
+    const jpDay = ['日', '月', '火', '水', '木', '金', '土']
+    return jpDay[now.getDay()]
+  }
   const createUserLogs = () => {
     return {
-      day: '10(月)',
+      day: `${now.getDate().toString()}(${nowJapaneseDay()})`,
       start: startTime,
       end: endTime,
       rest: `${restStartTime}~${restEndTime}`,
@@ -87,7 +92,7 @@ export const useKintai = () => {
         {'年'}
         <input type={'text'} value={requestMonth} onChange={changeRequestMonthHandler} />
         {'月'}
-        {'10'}
+        {now.getDate().toString()}
         {'日'}
       </div>
       <div>{'業務'}</div>
@@ -125,7 +130,8 @@ export const useKintai = () => {
       <div>
         {'記録'}
         <div>
-          月<input type={'text'} value={displayMonth} onChange={changeDisplayMonthHandler} />
+          <input type={'text'} value={displayMonth} onChange={changeDisplayMonthHandler} />
+          {'月'}
         </div>
         <table>
           <thead>
