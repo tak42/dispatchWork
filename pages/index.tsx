@@ -24,7 +24,7 @@ const Home: NextPage = () => {
         <Works>
           <Card onClick={() => setMode('kintai')}>勤怠入力</Card>
 
-          <Card onClick={() => setMode('zangyo')}>残業時間報告</Card>
+          <Card onClick={() => setMode('week')}>週報</Card>
 
           <Card onClick={() => setMode('mounth')}>月次報告</Card>
 
