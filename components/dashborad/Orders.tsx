@@ -1,12 +1,10 @@
 import Link from '@mui/material/Link'
-import { makeStyles } from '@mui/material/styles'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import React from 'react'
-import styled from 'styled-components'
+import * as React from 'react'
 import Title from './Title'
 
 // Generate Order Data
@@ -33,18 +31,7 @@ function preventDefault(event: React.MouseEvent) {
   event.preventDefault()
 }
 
-const useStyles: any = makeStyles((theme: any) => ({
-  seemore: {
-    marginTop: theme.spacing(3),
-  },
-}))
-
-const MoreOrders = styled.div`
-  word-spacing: 3px;
-`
-
 export default function Orders() {
-  const classes = useStyles()
   return (
     <React.Fragment>
       <Title>Recent Orders</Title>
@@ -65,16 +52,14 @@ export default function Orders() {
               <TableCell>{row.name}</TableCell>
               <TableCell>{row.shipTo}</TableCell>
               <TableCell>{row.paymentMethod}</TableCell>
-              <TableCell align="right">{row.amount}</TableCell>
+              <TableCell align="right">{`$${row.amount}`}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      <div className={classes.seeMore}>
-        <Link color="primary" href="#" onClick={preventDefault}>
-          See more orders
-        </Link>
-      </div>
+      <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
+        See more orders
+      </Link>
     </React.Fragment>
   )
 }

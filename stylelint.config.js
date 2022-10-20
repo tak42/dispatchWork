@@ -12,6 +12,8 @@ module.exports = {
     'unit-no-unknown': null,
     'function-no-unknown': null,
     'selector-type-no-unknown': null,
+    'property-no-unknown': null,
+    'selector-class-pattern': null,
   },
   customSyntax: '@stylelint/postcss-css-in-js',
 }
