@@ -13,6 +13,7 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { useState } from 'react'
 import Dashboard from '../dashborad/Dashboard'
+import { get } from '../../server/api/user'
 
 function Copyright(props: any) {
   return (
@@ -29,16 +30,21 @@ function Copyright(props: any) {
 
 const theme = createTheme()
 
+const getUser = async (email: string) => {
+  return await get(email)
+}
+
 export default function SignInSide() {
   const [isLogin, setIsLogin] = useState(false)
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    setIsLogin(true)
+    const email = data.get('email')
     console.log({
       email: data.get('email'),
       password: data.get('password'),
     })
+    getUser(String(email)).then(() => setIsLogin(true))
   }
   return (
     <ThemeProvider theme={theme}>
