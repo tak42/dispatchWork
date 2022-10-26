@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3000",
+    "dev": "run-p dev:front dev:server",
+    "dev:front": "next dev -p 3000",
+    "dev:server": "ts-node -P tsconfig-prisma.json server/server.ts",
     "build": "next build && next export",
     "lint": "run-p lint:js lint:prettier lint:style",
     "lint:js": "eslint --ext .ts,.tsx,.js --ignore-path .gitignore .",
