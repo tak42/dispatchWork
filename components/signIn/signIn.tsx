@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography'
 import { useState } from 'react'
 import Dashboard from '../dashborad/Dashboard'
 import { get } from '../../server/api/index'
+import type { User } from '@prisma/client'
 
 function Copyright(props: any) {
   return (
@@ -35,9 +36,9 @@ const getPing = async () => {
   console.log(res.data)
 }
 
-const getUser = async () => {
-  const res = await get('http://localhost:8080/user')
-  console.log(res.data)
+const getUser = async (email: string) => {
+  const res = await get(`http://localhost:8080/${email}`)
+  console.log(res.data.response)
 }
 
 export default function SignInSide() {
@@ -45,11 +46,12 @@ export default function SignInSide() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    getUser()
-    console.log({
-      email: data.get('email'),
+    const input = {
+      email: String(data.get('email')),
       password: data.get('password'),
-    })
+    }
+    console.log(input.email)
+    getUser(input.email)
   }
   return (
     <ThemeProvider theme={theme}>
