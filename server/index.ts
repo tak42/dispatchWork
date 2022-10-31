@@ -1,7 +1,6 @@
 import Fastify from 'fastify'
 import cors from '@fastify/cors'
 import { getUser, getAllUsers, createUser } from './api/user'
-import { emit } from 'process'
 
 const fastify = Fastify()
 
@@ -14,22 +13,24 @@ fastify.get('/user', async (request, reply) => {
   reply.type('application/json').code(200).send({ response: users })
 })
 
-fastify.get<{ Params: { email: string } }>('/:email', async (request, reply) => {
+fastify.get<{ Params: { email: string; password: string } }>('/:email', async (request, reply) => {
   const mail = String(request.params.email)
+  const password = String(request.params.password)
   reply
     .type('application/json')
     .code(200)
-    .send({ response: { user: await getUser(mail), email: mail } })
+    .send({ response: { user: await getUser(mail, password), email: mail } })
 })
 
-fastify.post<{ Body: { name: string; email: string } }>('/user', async (request, reply) => {
-  const bodyName = request.body.name
-  const bodyEmail = request.body.email
-  reply
-    .type('application/json')
-    .code(200)
-    .send({ response: await createUser({ name: bodyName, email: bodyEmail }) })
-})
+fastify.post<{ Body: { name: string; email: string; password: string } }>(
+  '/user',
+  async (request, reply) => {
+    reply
+      .type('application/json')
+      .code(200)
+      .send({ response: await createUser(request.body) })
+  }
+)
 
 fastify.listen({ port: 8080 }, (err, address) => {
   if (err) {
