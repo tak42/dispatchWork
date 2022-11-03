@@ -11,9 +11,9 @@ import Paper from '@mui/material/Paper'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import { useState } from 'react'
 import Dashboard from '../dashborad/Dashboard'
-import { get, post } from '../../server/api/index'
+import { post } from '../../server/api/index'
+import { loggedInState, useLoggedInState } from '../../src/globalState/loggedInState'
 
 function Copyright(props: any) {
   return (
@@ -39,7 +39,7 @@ const getUser = async (email: string, password: string) => {
 }
 
 export default function SignInSide() {
-  const [isLogin, setIsLogin] = useState(false)
+  const loggedIn = useLoggedInState()
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
@@ -48,13 +48,15 @@ export default function SignInSide() {
       password: String(data.get('password')),
     }
     await getUser(input.email, input.password)
-      .then(() => setIsLogin(true))
+      .then(() => loggedIn.setLoggedIn(true))
       .catch((err) => alert(err.response.data))
   }
   return (
     <ThemeProvider theme={theme}>
-      {isLogin ? (
-        <Dashboard />
+      {loggedIn.state ? (
+        <loggedInState.Provider value={loggedIn}>
+          <Dashboard />
+        </loggedInState.Provider>
       ) : (
         <Grid container component="main" sx={{ height: '100vh' }}>
           <CssBaseline />
