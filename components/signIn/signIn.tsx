@@ -13,8 +13,7 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { useState } from 'react'
 import Dashboard from '../dashborad/Dashboard'
-import { get } from '../../server/api/index'
-import type { User } from '@prisma/client'
+import { get, post } from '../../server/api/index'
 
 function Copyright(props: any) {
   return (
@@ -31,27 +30,26 @@ function Copyright(props: any) {
 
 const theme = createTheme()
 
-const getPing = async () => {
-  const res = await get('http://localhost:8080/ping')
-  console.log(res.data)
-}
-
-const getUser = async (email: string) => {
-  const res = await get(`http://localhost:8080/${email}`)
-  console.log(res.data.response)
+const getUser = async (email: string, password: string) => {
+  const data = {
+    email: email,
+    password: password,
+  }
+  return await post('http://localhost:8080/user_get', data)
 }
 
 export default function SignInSide() {
   const [isLogin, setIsLogin] = useState(false)
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
     const input = {
       email: String(data.get('email')),
-      password: data.get('password'),
+      password: String(data.get('password')),
     }
-    console.log(input.email)
-    getUser(input.email)
+    await getUser(input.email, input.password)
+      .then(() => setIsLogin(true))
+      .catch((err) => alert(err.response.data))
   }
   return (
     <ThemeProvider theme={theme}>
