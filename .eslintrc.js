@@ -35,5 +35,7 @@ module.exports = {
     'prefer-template': 'error',
     '@typescript-eslint/consistent-type-imports': 'error',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    'no-empty-function': 'on',
+    '@typescript-eslint/no-empty-function': 'error',
   },
 }
