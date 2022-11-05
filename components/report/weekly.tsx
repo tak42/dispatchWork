@@ -1,4 +1,4 @@
-export const useWeekly = () => {
+const UseWeekly = () => {
   const now = new Date()
   const currentMonth = `${now.getMonth() + 1}月`
   return (
@@ -131,4 +131,8 @@ export const useWeekly = () => {
       </div>
     </div>
   )
+}
+
+export default function ReportWriting() {
+  return <UseWeekly />
 }

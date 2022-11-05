@@ -25,6 +25,7 @@ import List from '@mui/material/List'
 import Copyright from './Copyright'
 import AppBar from './AppBar'
 import Drawer from './Drawer'
+import { SwitchReport } from '../report/index'
 
 export const drawerWidth = 240
 
@@ -152,7 +153,10 @@ function DashboardContent() {
           </Box>
         ) : (
           <Box component="main" sx={mainSx(mdTheme)}>
-            <div>{Work.state}</div>
+            <Toolbar />
+            <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+              {SwitchReport(Work.state)}
+            </Container>
           </Box>
         )}
       </Box>
