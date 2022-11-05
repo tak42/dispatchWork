@@ -1,5 +1,4 @@
 import AssignmentIcon from '@mui/icons-material/Assignment'
-import BarChartIcon from '@mui/icons-material/BarChart'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import LayersIcon from '@mui/icons-material/Layers'
 import PeopleIcon from '@mui/icons-material/People'
@@ -7,65 +6,54 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import ListSubheader from '@mui/material/ListSubheader'
 import React, { useContext } from 'react'
-import { EmployeeMenus } from '../../src/work/technicalEmployee'
-import type { Work, Icon } from '../../src/work/technicalEmployee'
+import type { Work } from '../../src/work/technicalEmployee'
 import { WorkState } from '../../src/globalState/workState'
 
-type IconList = {
-  type: Icon
-  tsx: JSX.Element
-}[]
-
-const tsxIconList: IconList = [
+export const EmployeeMenus: {
+  title: string
+  work: Work
+  icon: JSX.Element
+}[] = [
   {
-    type: 'Assignment',
-    tsx: <AssignmentIcon />,
+    title: 'Dashboard',
+    work: '',
+    icon: <DashboardIcon />,
   },
   {
-    type: 'BarChart',
-    tsx: <BarChartIcon />,
+    title: '勤怠管理',
+    work: 'attendance',
+    icon: <ShoppingCartIcon />,
   },
   {
-    type: 'Dashboard',
-    tsx: <DashboardIcon />,
+    title: '報告書作成',
+    work: 'reportWriting',
+    icon: <AssignmentIcon />,
   },
   {
-    type: 'Layers',
-    tsx: <LayersIcon />,
+    title: '案件共有',
+    work: 'caseInformationSharing',
+    icon: <PeopleIcon />,
   },
   {
-    type: 'People',
-    tsx: <PeopleIcon />,
-  },
-  {
-    type: 'ShoppingCart',
-    tsx: <ShoppingCartIcon />,
+    title: 'Excel出力',
+    work: 'excelOut',
+    icon: <LayersIcon />,
   },
 ]
 
 const ListItems = () => {
-  const SearchIcon = (props: { icon: Icon }) => {
-    const findIcon = tsxIconList.find((item) => item.type === props.icon)
-    if (findIcon === undefined) return <DashboardIcon />
-    return findIcon.tsx
-  }
-
   const workContext = useContext(WorkState)
 
   const btnClick = (work: Work) => {
-    console.log(work + ' btn clicked!')
     workContext.setWork(work)
   }
   return (
     <React.Fragment>
-      {EmployeeMenus.map((menu) => {
+      {EmployeeMenus.map((menu, idx) => {
         return (
-          <ListItemButton onClick={() => btnClick(menu.work)}>
-            <ListItemIcon>
-              <SearchIcon icon={menu.icon} />
-            </ListItemIcon>
+          <ListItemButton onClick={() => btnClick(menu.work)} key={idx}>
+            <ListItemIcon>{menu.icon}</ListItemIcon>
             <ListItemText primary={menu.title} />
           </ListItemButton>
         )

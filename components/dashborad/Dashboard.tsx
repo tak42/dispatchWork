@@ -13,15 +13,14 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import type { Theme } from '@mui/material/styles'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import { useState, useContext, useMemo } from 'react'
+import { useState, useContext } from 'react'
 import Chart from './Chart'
 import Deposits from './Deposits'
 import Orders from './Orders'
-import Menu from './Menu'
+import Menu, { EmployeeMenus } from './Menu'
 import SubMenu from './SubMenu'
 import { loggedInState } from '../../src/globalState/loggedInState'
 import { WorkState, useWorkState } from '../../src/globalState/workState'
-import { EmployeeMenus } from '../../src/work/technicalEmployee'
 import List from '@mui/material/List'
 import Copyright from './Copyright'
 import AppBar from './AppBar'
@@ -53,11 +52,11 @@ function DashboardContent() {
 
   const [open, setOpen] = useState(true)
 
-  const Title: string = useMemo<string>(() => {
+  const Title = (): string => {
     const findMenu = EmployeeMenus.find((menu) => menu.work === Work.state)
     if (findMenu === undefined) return 'Dashboard'
     return findMenu.title
-  }, [EmployeeMenus, Work])
+  }
 
   const toggleDrawer = () => {
     setOpen(!open)
@@ -88,7 +87,7 @@ function DashboardContent() {
               <MenuIcon />
             </IconButton>
             <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-              {Title}
+              {Title()}
             </Typography>
             <IconButton
               color="inherit"
