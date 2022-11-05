@@ -7,6 +7,7 @@ const main = async () => {
     data: {
       name: 'noto-takaaki',
       email: '1206ookubo@gmail.com',
+      password: 'Masuotgo1031',
       isAdmin: true,
     },
   })
