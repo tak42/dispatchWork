@@ -8,7 +8,7 @@ type WorkState = {
 
 const defaultState: WorkState = {
   state: '',
-  setWork: () => {},
+  setWork: () => ({}),
 }
 
 export const WorkState = createContext<WorkState>(defaultState)

@@ -8,7 +8,7 @@ type LoggedInState = {
 
 const defaultState: LoggedInState = {
   state: false,
-  setLoggedIn: () => {},
+  setLoggedIn: () => ({}),
 }
 
 export const loggedInState = createContext<LoggedInState>(defaultState)
