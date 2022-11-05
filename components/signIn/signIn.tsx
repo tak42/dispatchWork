@@ -11,8 +11,9 @@ import Paper from '@mui/material/Paper'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import { useState } from 'react'
 import Dashboard from '../dashborad/Dashboard'
+import { post } from '../../server/api/index'
+import { loggedInState, useLoggedInState } from '../../src/globalState/loggedInState'
 
 function Copyright(props: any) {
   return (
@@ -29,21 +30,33 @@ function Copyright(props: any) {
 
 const theme = createTheme()
 
+const getUser = async (email: string, password: string) => {
+  const data = {
+    email: email,
+    password: password,
+  }
+  return await post('http://localhost:8080/user_get', data)
+}
+
 export default function SignInSide() {
-  const [isLogin, setIsLogin] = useState(false)
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const loggedIn = useLoggedInState()
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    setIsLogin(true)
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    })
+    const input = {
+      email: String(data.get('email')),
+      password: String(data.get('password')),
+    }
+    await getUser(input.email, input.password)
+      .then(() => loggedIn.setLoggedIn(true))
+      .catch((err) => alert(err.response.data))
   }
   return (
     <ThemeProvider theme={theme}>
-      {isLogin ? (
-        <Dashboard />
+      {loggedIn.state ? (
+        <loggedInState.Provider value={loggedIn}>
+          <Dashboard />
+        </loggedInState.Provider>
       ) : (
         <Grid container component="main" sx={{ height: '100vh' }}>
           <CssBaseline />
