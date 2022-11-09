@@ -25,6 +25,7 @@ import List from '@mui/material/List'
 import Copyright from './Copyright'
 import AppBar from './AppBar'
 import Drawer from './Drawer'
+import WorkBoard from '../report/index'
 
 export const drawerWidth = 240
 
@@ -35,7 +36,7 @@ const paperSx = {
   height: 240,
 }
 
-const mainSx = (theme: Theme) => {
+export const mainSx = (theme: Theme) => {
   return {
     backgroundColor:
       theme.palette.mode === 'light' ? theme.palette.grey[100] : theme.palette.grey[900],
@@ -151,9 +152,9 @@ function DashboardContent() {
             </Container>
           </Box>
         ) : (
-          <Box component="main" sx={mainSx(mdTheme)}>
-            <div>{Work.state}</div>
-          </Box>
+          <WorkState.Provider value={Work}>
+            <WorkBoard />
+          </WorkState.Provider>
         )}
       </Box>
     </ThemeProvider>

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export const useKintai = () => {
+const UseKintai = () => {
   const now = new Date()
   const [requestYear, setRequestYear] = useState(now.getFullYear().toString())
   const [requestMonth, setRequestMonth] = useState(String(now.getMonth() + 1))
@@ -158,4 +158,8 @@ export const useKintai = () => {
       </div>
     </div>
   )
+}
+
+export default function Attendance() {
+  return <UseKintai />
 }
